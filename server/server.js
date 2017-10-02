@@ -1,3 +1,5 @@
+const {ObjectId} = require('mongodb');
+
 var express = require('express');
 var bodyParser = require('body-parser');
 
@@ -29,6 +31,23 @@ app.get('/todos', (req, res) => {
   });
 });
 
+app.get('/todos/:id', (req, res) => {
+  var id = req.params.id;
+  if (!ObjectId.isValid(id)) {
+    return res.sendStatus(404).send();
+  }
+
+  Todo.findById(id).then((todo) => {
+    if (!todo) {
+      return re.status(404).send();
+    }
+    res.send({todo});
+    }).catch((e) => {
+    res.status(400).send();
+  });
+});
+
+
 app.listen(3000, () => {
   console.log('Satrted on port 3000');
 });
@@ -38,6 +57,4 @@ module.exports = {app};
 
 
 
- // do {
- //
- // } while (true);
+ // space
