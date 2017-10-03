@@ -11,7 +11,7 @@ var app = express();
 const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
-
+//POST Request
 app.post('/todos', (req, res) => {
   console.log(req.body);
   var todo = new Todo({
@@ -23,7 +23,7 @@ app.post('/todos', (req, res) => {
     res.status(400).send(e);
   });
 });
-
+//GET Requests
 app.get('/todos', (req, res) => {
   Todo.find().then((todos) => {
     res.send({todos});
@@ -40,7 +40,7 @@ app.get('/todos/:id', (req, res) => {
 
   Todo.findById(id).then((todo) => {
     if (!todo) {
-      return re.status(404).send();
+      return res.status(404).send();
     }
 
     res.send({todo});
@@ -49,7 +49,24 @@ app.get('/todos/:id', (req, res) => {
   });
 });
 
+//DELETE request
+app.delete('/todos/:id', (req, res) => {
+  var id = req.params.id;
+  if (!ObjectId.isValid(id)) {
+    return res.send.status(404).send();
+  }
 
+  Todo.findByIdAndRemove(id).then((todo) => {
+    if (!todo) {
+      return res.status(404).send();
+    }
+
+    res.status(200).send({todo});
+  }).catch((e) => {
+    res.status(400).send();
+  });
+});
+//Basically a launch server
 app.listen(port, () => {
     console.log(`Started on port ${port}`);
 });

@@ -102,3 +102,16 @@ describe('GET /todos/_id', () => {
       .end(done);
   });
 });
+
+// Describe('DELETE /todos/_id', () => {
+//
+// it('Should... ', (done) => {
+//
+//   
+// });
+//
+// it('Should...', (done) => {
+//
+// });
+
+});
